@@ -1,0 +1,29 @@
+{
+    "variables": {
+        "accesskey": "{{env `ACCESS_KEY`}}",
+        "secretkey": "{{env `SECRET_KEY`}}"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "{{user `accesskey`}}",
+            "secret_key": "{{user `secretkey`}}",
+            "region": "us-east-1",
+            "ami_name": "provisioner_example_ami",
+            "source_ami": "ami-123456",
+            "instance_type": "t2.micro",
+            "ssh_username": "ubuntu"
+        }
+    ],
+    "provisioner": [
+        {
+            "type": "shell",
+            "inline": [
+                "sleep 30",
+                "sudo apt update",
+                "sudo apt install nginx -y"
+            ]
+        }
+    ],
+    "sensitive-variables": ["accesskey", "secretkey"]
+}
