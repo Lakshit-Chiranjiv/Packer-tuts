@@ -1,0 +1,33 @@
+{
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "YOUR_AWS_ACCESS_KEY_ID",
+            "secret_key": "YOUR_AWS_SECRET_KEY",
+            "region": "us-east-1",
+            "ami_name": "postprocessor_example_ami",
+            "source_ami": "ami-123456",
+            "instance_type": "t2.micro",
+            "ssh_username": "ubuntu"
+        }
+    ],
+    "provisioner": [
+        {
+            "type": "shell",
+            "inline": [
+                "sleep 30",
+                "sudo apt update",
+                "sudo apt install nginx -y"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "output.json"
+        },
+        {
+            "type": "vagrant"
+        }
+    ]
+}
